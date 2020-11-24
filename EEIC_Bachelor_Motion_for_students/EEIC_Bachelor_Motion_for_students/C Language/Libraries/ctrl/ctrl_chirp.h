@@ -1,4 +1,4 @@
-﻿#ifndef _CTRL_IDENT_h
+#ifndef _CTRL_IDENT_h
 #define _CTRL_IDENT_h
 
 // チャープサインの式に使える定数集

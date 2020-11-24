@@ -1,4 +1,4 @@
-﻿#include <gplib.h>   // Global Gp Shared memory pointer
+#include <gplib.h>   // Global Gp Shared memory pointer
 //----------------------------------------------------------------------------------
 // pp_proj.h is the C header for accessing PMAC Global, CSGlobal, Ptr vars
 // _PPScriptMode_ for Pmac Script like access global & csglobal

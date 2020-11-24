@@ -33,30 +33,22 @@ Author:		Yui Shirato
 //#include "../../Include/ECATMap.h" //add ADin
 #include "hardw_cdrv.h"
 
-#define		TOIDA_Single	(3276.7)	//DAポートで10V出したいときは32767を MyGate3->Chan[0].Dac[axis] = (int)32767 << 16; に書く
-void hardw_vref(double vref)
+#define TRQ_MAX 5 // [Nm]
+#define MAX_VAL 32767
+#define TRQ_CONST 0.9800 // [Nm/V]
+
+// hardware input 10 V -> (32767 << 16)
+void hardw_trqref(double trqref)
 {
-	volatile struct GateArray3  *MyGate3; // Gate3用構造体変数の定義
-	MyGate3 = GetGate3MemPtr(0); // Acc24E3[0]のアドレスを設定
-
-	if (vref>5){
-      vref=5;
-	 } else if (vref<-5){
-      vref=-5;
-	 } else {
-	 vref = vref;
-	 }
-
-	MyGate3->Chan[0].Dac[0] = (int)(vref*TOIDA_Single) << 16; //32767=10Vなので，TOIDA_Singleを用いたと判断した
+	volatile struct GateArray3  *MyGate3;
+	MyGate3 = GetGate3MemPtr(0);
 	
+	// saturation
+	if (trqref > TRQ_MAX){
+    trqref = TRQ_MAX;
+	} else if (trqref < -TRQ_MAX) {
+		trqref = -TRQ_MAX;
+	}
+
+	MyGate3->Chan[0].Dac[0] = (int)(trqref / TRQ_CONST * MAX_VAL) << 16;
 }
-
-#define One_Circle_Num	(312500) //1 circle = 360 deg = 312500
-
-void hardw_angle_fromdeg_tonum(double deg, double *out){
-*out = One_Circle_Num /360.0 * deg;
-}
-
-void hardw_angle_fromnum_todeg(double num, double *out){
-*out = num / One_Circle_Num * 360.0;
-} 

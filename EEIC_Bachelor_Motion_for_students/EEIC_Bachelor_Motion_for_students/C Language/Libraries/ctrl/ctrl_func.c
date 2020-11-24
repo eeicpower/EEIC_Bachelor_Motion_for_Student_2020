@@ -1,4 +1,4 @@
-﻿//#include <gplib.h>
+//#include <gplib.h>
 //#include <RtGpShm.h>	// Global Rt/Gp Shared memory pointers
 //-------------------------------------------------------------
 // The following is a projpp created file from the User defines
